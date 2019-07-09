@@ -660,3 +660,255 @@ button:
 
 Nice, we now have a menu, though it’s kind of sparse. Let’s add a few more
 pages.
+
+## 3.5: Add a Resume page
+
+We’ll start with a resume page. There are many ways you can do this, including
+using resume HTML templates which you can copy-paste into your react component,
+however I will give an example of a basic resume layout using Semantic UI.
+
+First, create a new component at src/components/PageResume.tsx:
+
+```TSX
+import React from 'react';
+import { Header, Content } from 'semantic-ui-react';
+
+const PageResume: React.FC = () => {
+  return (
+    <div className="page-resume">
+      <Header>Your Name</Header>
+      <Content>
+        Stuff about me
+      </Content>
+    </div>
+  );
+};
+
+export default PageResume;
+```
+
+Before continuing, let’s add the route we need to access this new page. In
+src/App.tsx, add an additional Route and MenuItem corresponding to our new page:
+
+```TSX
+import React from 'react';
+import { Switch, Route, Link, withRouter } from 'react-router-dom';
+import { Menu } from 'semantic-ui-react';
+import './App.css';
+import PageHome from './components/PageHome';
+import PageResume from './components/PageResume';
+
+const App = withRouter(props => {
+  const {
+    location: { pathname }
+  } = props;
+
+  return (
+    <div className="App">
+      <Menu fixed={'top'} pointing={true} secondary={true}>
+        <Menu.Item
+          active={pathname === '/'}
+          name="Home"
+          icon="home"
+          as={Link}
+          to="/"
+        />
+        <Menu.Item
+          active={pathname === '/about'}
+          name="About Me"
+          as={Link}
+          to="/about"
+        />
+      </Menu>
+      <Switch>
+        <Route exact path="/" component={PageHome} />
+        <Route exact path="/about" component={PageResume} />
+      </Switch>
+    </div>
+  );
+});
+
+export default App;
+```
+
+At this point, our menu should start looking more like a menu:
+
+![Example navigation menu with additional options](docs/image_350.png)
+
+"About" is a common page on websites, and usually contains at least a paragraph
+or two regarding the company, product, or individual. In this case, you could
+just write a couple of paragraphs about yourself and call it a day. If you have
+time, however, it wouldn't be a bad idea to fill this out as a complete,
+printable resume. In this example, we'll create a page that's a full HTML-based
+resume, in case that's something you're interested in.
+
+We can use Semantic UI to map out the general structure of a typical resume:
+
+```TSX
+import React from 'react';
+import './PageResume.css';
+import { Header, Container, Divider } from 'semantic-ui-react';
+
+const PageResume: React.FC = () => {
+  return (
+    <div className="page-resume">
+      <Header as="h2" textAlign={'center'}>
+        Your Name
+      </Header>
+      <Container text textAlign={'left'}>
+        <Header as="h3">Education</Header>
+      </Container>
+      <Divider hidden />
+      <Container text>
+        <Header as="h3">Skills</Header>
+      </Container>
+      <Divider hidden />
+      <Container text>
+        <Header as="h3">Experience</Header>
+      </Container>
+      <Divider hidden />
+      <Container text>
+        <Header as="h3">Projects</Header>
+      </Container>
+    </div>
+  );
+};
+
+export default PageResume;
+```
+
+This divides the page into a title header (your name) and 4 distinct sections
+for education, skills, experience and projects. Resumes can be organized in a
+lot of ways, of course, and this is just an example, but if you're applying to
+your first developer job after school, odds are your actual relevant experience
+is limited and you'll need to emphasize education and projects (personal,
+research, etc).
+
+We can also add an accompanying CSS file (src/components/PageResume.css) to
+adjust the page position:
+
+```CSS
+.page-resume {
+  margin-top: 50px;
+  text-align: left;
+}
+```
+
+We can fill out the content of each section with some basic HTML:
+
+```TSX
+import React from 'react';
+import './PageResume.css';
+import { Header, Container, Divider } from 'semantic-ui-react';
+
+const PageResume: React.FC = () => {
+  return (
+    <div className="page-resume">
+      <Header as="h2" textAlign={'center'}>
+        Your Name
+      </Header>
+      <Container text textAlign={'left'}>
+        <Header as="h3">Education</Header>
+        <p>
+          <strong>Borough of Manhattan Community College</strong>, New York, NY
+          <br />
+          Associate in Science, Computer Science, 2019, 3.7 GPA
+        </p>
+      </Container>
+      <Divider hidden />
+      <Container text>
+        <Header as="h3">Skills</Header>
+        <p>
+          <em>Coding:</em> C/C++, Java, x86 assembly, C#, PHP, Javascript, HTML,
+          CSS, SML, Ruby, Perl
+          <em>Technologies/Environment:</em> Windows, Win32 API/GUI, Linux,
+          MySQL, OpenGL, ASP.NET
+        </p>
+      </Container>
+      <Divider hidden />
+      <Container text>
+        <Header as="h3">Experience</Header>
+        <strong>
+          Artemia Health Systems, New York, NY Student Intern (Summer 2018)
+        </strong>
+        <ul>
+          <li>
+            Created new functionality for state-level prescription drug
+            information system
+          </li>
+          <li>Worked with end users to determine their information needs</li>
+          <li>Wrote application to create custom surveys</li>
+          <li>Migrated existing website from SQL Membership to to ASP.NET</li>
+        </ul>
+        <strong>
+          Borough of Manhattan Community College Computing Services Help Center,
+          New York, NY Student Consultant (September 2018 – Present)
+        </strong>
+        <ul>
+          <li>
+            Resolved issues regarding networking (wired, wireless, and dialup),
+            and email problems for Borough of Manhattan Community College users
+          </li>
+          <li>
+            Answered questions about software supported by the university, such
+            as MS Office
+          </li>
+          <li>
+            Communicated with customers through email, telephone, and face to
+            face
+          </li>
+        </ul>
+      </Container>
+      <Divider hidden />
+      <Container text>
+        <Header as="h3">Projects</Header>
+        <strong>
+          Vintage Foundation (Fall 2017) – a consulting project in a nonprofit
+          organization
+        </strong>
+        <ul>
+          <li>
+            Advised on new technologies to help further the organizational
+            mission
+          </li>
+          <li>
+            Instructed program director on building a user-friendly website and
+            relational database
+          </li>
+          <li>Assessed systemic problems and suggested possible solutions</li>
+        </ul>
+        <strong>
+          News Delivery System (Spring 2018) - online information
+          gathering/presentation system
+        </strong>
+        <ul>
+          <li>
+            Integrated old code with new for web application delivering custom
+            tailored web news
+          </li>
+          <li>Coded in Java using Model-View-Controller architecture</li>
+        </ul>
+        <strong>
+          Ebarter (Fall 2017) - an online bartering system running on Apache
+          Tomcat
+        </strong>
+        <ul>
+          <li>
+            Applied software engineering principles along with J2SE Web
+            Development Kit
+          </li>
+          <li>Led team in coding phase of development</li>
+        </ul>
+      </Container>
+    </div>
+  );
+};
+
+export default PageResume;
+```
+
+We now have a content-filled web page that should double as a workable resume.
+
+![Image of new resume page](docs/image_351.png)
+
+You can try printing this page to see how it looks.
