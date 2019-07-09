@@ -1170,3 +1170,28 @@ Hints:
 - You'll be editing the PageHome.tsx file again
 - You could use Semantic UI
   [buttons](https://react.semantic-ui.com/elements/button/#variations-circular-social)
+
+## 4.3: Could we add a Contact page?
+
+# Conclusion
+
+In this lesson we built a simple website using React, a modern single-page web
+application framework. A lot of web applications can be built this way.
+
+Our next lesson will expand on what we learned here, covering full-stack
+development with an [Express](https://expressjs.com/) server and
+[Mongo](https://www.mongodb.com/) database for persisting data between sessions.
+
+Lesson 3 will focus on [web services](https://en.wikipedia.org/wiki/Web_service)
+and [DevOps](https://aws.amazon.com/devops/what-is-devops/) with
+[Azure](https://azure.microsoft.com/en-us/). This will expand on the concepts we
+learn in lesson 2 and highlight current methods for modularizing back-end
+functionality.
+
+# Appendix
+
+## Solution: 4.1
+
+## Solution: 4.2
+
+## Solution: 4.3
