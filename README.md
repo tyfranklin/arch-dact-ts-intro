@@ -363,3 +363,120 @@ as well update the title tag to something relevant.
   <title>Your Name</title>
 </head>
 ```
+
+## 3.2: Make a homepage
+
+Start by blasting the boilerplate CRA content in src/App.tsx:
+
+```TSX
+import React from 'react';
+import './App.css';
+
+const App: React.FC = () => {
+  return (
+    <div className="App">
+
+    </div>
+  );
+};
+
+export default App;
+```
+
+Replace it with a call to your homepage component. We’ll call it "PageHome" to
+keep the component classification info at the front.
+
+```TSX
+import React from 'react';
+import './App.css';
+import PageHome from './components/PageHome';
+
+const App: React.FC = () => {
+  return (
+    <div className="App">
+      <PageHome />
+    </div>
+  );
+};
+
+export default App;
+```
+
+You should see an error in the terminal after saving, since the PageHome.tsx
+file doesn’t exist. We’ll do that next. Create a new file at
+src/components/PageHome.tsx and populate it with the following to start:
+
+```TSX
+import React from 'react';
+import './PageHome.css';
+
+const PageHome: React.FC = () => {
+  return (
+    <div className="page-home">
+      <div className="centering-container">
+
+      </div>
+    </div>
+  );
+};
+
+export default PageHome;
+```
+
+This sets up a component consisting of just an outer page div and an inner
+centering container div. The terminal will show an error until we add the CSS
+file at `src/components/PageHome.css`, which can look like this:
+
+```CSS
+.page-home {
+  height: 100%;
+  width: 100%;
+}
+
+.centering-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  height: 30vh;
+  width: 40vw;
+}
+```
+
+At this point your homepage will render, however it will be completely blank!
+Next, we’ll add some content to the homepage using Semantic components:
+
+```TSX
+import React from 'react';
+import { Header, Icon, Container } from 'semantic-ui-react';
+import './PageHome.css';
+
+const PageHome: React.FC = () => {
+  return (
+    <div className="page-home">
+      <div className="centering-container">
+        <Header as="h2" icon textAlign="center">
+          <Icon name="user" circular />
+          <Header.Content>Your Name</Header.Content>
+        </Header>
+        <Container>
+          Hi, I'm so-and-so. I'm a student at Borough of Manhattan Community
+          College and a web app developer.
+        </Container>
+      </div>
+    </div>
+  );
+};
+
+export default PageHome;
+```
+
+This should show up as a blank page with your image placeholder, your name, and
+an introduction.
+
+![Home page example](image_320.png)
+
+Later we’ll customize this page with your profile picture and social media
+buttons, but this is a start.
