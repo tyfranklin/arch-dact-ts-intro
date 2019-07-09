@@ -1135,3 +1135,38 @@ export default PageProjects;
 Which would show a modal dialog when the project cards are clicked:
 
 ![Example of modal dialog with project details](docs/image_361.png)
+
+# 4: Customize (guided experimentation)
+
+Here are some exercises you can try on your own. Solution examples are in the
+appendix.
+
+## 4.1: How would you change the picture on the home page?
+
+Right now, the image on the home page is a placeholder icon. You might consider
+adding a picture of yourself there. How would you go about this?
+
+Hints:
+
+- It requires editing the PageHome.tsx file
+- You will probably need to import a local image
+- Alternatively, you could
+  [use an existing online pic](https://smallbusiness.chron.com/share-url-facebook-image-48893.html)
+
+Bonus:
+
+- You could use the Semantic UI
+  [Image](https://react.semantic-ui.com/elements/image/) component
+
+## 4.2: Can we include social media buttons?
+
+An easy way to connect with your audience is via social media, and since users
+prefer to have everything at their fingertips, a common option for the
+social-media-inclined is to add buttons that link directly to relevant social
+media profiles. How would you go about this?
+
+Hints:
+
+- You'll be editing the PageHome.tsx file again
+- You could use Semantic UI
+  [buttons](https://react.semantic-ui.com/elements/button/#variations-circular-social)
