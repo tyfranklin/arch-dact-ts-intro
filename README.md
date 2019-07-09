@@ -45,7 +45,7 @@ The following will take you step-by-step through the process of creating and
 deploying a basic, modern web app. The product in this case is a developer
 portfolio.
 
-![site result example](image_000.png)
+![site result example](docs/image_000.png)
 
 Many steps can be altered or skipped entirely, depending on your existing setup,
 expertise and/or preferences, but this lesson is geared toward beginners. I will
@@ -80,7 +80,7 @@ Download installer [here](https://git-scm.com/downloads). Yours is likely a
 64-bit system. Use defaults but, if you’re on Windows, make sure to choose "use
 git and optional unix tools."
 
-![site result example](image_111.png)
+![site result example](docs/image_111.png)
 
 If you forget the step above, you will later receive a "command not found"
 message. To fix,
@@ -476,7 +476,7 @@ export default PageHome;
 This should show up as a blank page with your image placeholder, your name, and
 an introduction.
 
-![Home page example](image_320.png)
+![Home page example](docs/image_320.png)
 
 Later we’ll customize this page with your profile picture and social media
 buttons, but this is a start.
@@ -584,3 +584,79 @@ export default App;
 This will have no perceivable effect at the moment, since "/" was the default
 route we were already on, but we’ll need to add more pages next, and that’s
 where the additional routes come in.
+
+## 3.4: Add a Navigation Menu
+
+We’ll add a navbar to your app. These types of menus are ubiquitous and with
+reason: in short, while it’s cool to experiment with new approaches to layouts
+and UI concepts, generally good UIs are intuitive, which means predictable, and
+the easiest way to make something predictable is to do things the way users are
+already familiar with.
+
+First, create a new root level SUI element in src/App.tsx called Menu:
+
+```TSX
+import React from 'react';
+import { Switch, Route, Link, withRouter } from 'react-router-dom';
+import './App.css';
+import PageHome from './components/PageHome';
+import { Menu } from 'semantic-ui-react';
+
+const App = withRouter(props => {
+  return (
+    <div className="App">
+      <Menu fixed={'top'} pointing={true} secondary={true}>
+      </Menu>
+      <Switch>
+        <Route exact path="/" component={PageHome} />
+      </Switch>
+    </div>
+  );
+});
+
+export default App;
+```
+
+This will appear as an empty navigation bar. We’ll need to add a menu item that
+corresponds to the home page route:
+
+```TSX
+import React from 'react';
+import { Switch, Route, Link, withRouter } from 'react-router-dom';
+import './App.css';
+import PageHome from './components/PageHome';
+import { Menu } from 'semantic-ui-react';
+
+const App = withRouter(props => {
+  const {
+    location: { pathname }
+  } = props;
+
+  return (
+    <div className="App">
+      <Menu fixed={'top'} pointing={true} secondary={true}>
+        <Menu.Item
+          active={pathname === '/'}
+          name="Home"
+          icon="home"
+          as={Link}
+          to="/"
+        />
+      </Menu>
+      <Switch>
+        <Route exact path="/" component={PageHome} />
+      </Switch>
+    </div>
+  );
+});
+
+export default App;
+```
+
+At this point, you should see the rendered navigation bar with a new home page
+button:
+
+![Navigation bar example](docs/image_340.png)
+
+Nice, we now have a menu, though it’s kind of sparse. Let’s add a few more
+pages.
