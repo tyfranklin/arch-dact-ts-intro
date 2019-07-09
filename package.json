@@ -23,7 +23,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "present": "npx markdown-to-slides -d README.md -o prez.html -w"
   },
   "eslintConfig": {
     "extends": "react-app"
