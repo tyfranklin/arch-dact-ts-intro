@@ -283,3 +283,28 @@ Open _package.json_ which is at the root of the project and add the property
   ...
 }
 ```
+
+If you visit this URL in the browser now, there won’t be anything to see.
+
+Also, add two lines to "scripts"
+
+```JSON
+{
+  ...
+  "scripts": {
+    ...
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build",
+    ...
+  },
+  ...
+}
+```
+
+These lines define [npm script](https://docs.npmjs.com/misc/scripts) aliases,
+which help to simplify and organize commands and scripting in your project. For
+example, the command `yarn run deploy` now executes the command
+`gh-pages -d build`, however because "predeploy" is defined, it runs
+`yarn run build` prior to deploying, which is the default build command for your
+app. To summarize, now whenever you `yarn run deploy`, your app will build and
+deploy to Github Pages.
