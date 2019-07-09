@@ -318,3 +318,20 @@ React logo.
 This will be the command you use in the future to deploy updates to your site.
 At this point, we should commit our changes with
 `git commit -am "Add deployment scripts" && git push`.
+
+# 3: Develop the site
+
+## 3.1: Choose a UI framework
+
+UI frameworks are not a requirement for most projects, and sometimes they can
+even get in the way, however many developers use them to enforce design
+principles in an application and/or to rapidly prototype views.
+
+A few popular UI frameworks right now are [Material](https://material-ui.com/)
+(Google), [Bootstrap](https://getbootstrap.com/) (Twitter), and
+[Semantic](https://semantic-ui.com/) (non-profit). Each have their merits but
+I’ll be using Semantic UI in this lesson.
+
+To install, run `yarn add semantic-ui-react`, then just add the CSS link to the
+head tag of your HTML (./public/index.html). Also, while you're there, you might
+as well update the title tag to something relevant.
