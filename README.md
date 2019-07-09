@@ -308,3 +308,13 @@ example, the command `yarn run deploy` now executes the command
 `yarn run build` prior to deploying, which is the default build command for your
 app. To summarize, now whenever you `yarn run deploy`, your app will build and
 deploy to Github Pages.
+
+## 2.3: Deploy the site to Github pages
+
+So let’s try it. Execute yarn run deploy in your terminal. At this point, if you
+go to the URL of the homepage you defined above, you should see the spinning
+React logo.
+
+This will be the command you use in the future to deploy updates to your site.
+At this point, we should commit our changes with
+`git commit -am "Add deployment scripts" && git push`.
