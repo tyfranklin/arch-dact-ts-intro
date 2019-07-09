@@ -4,12 +4,12 @@ import { Menu } from 'semantic-ui-react';
 import './App.css';
 import PageHome from './components/PageHome';
 import PageResume from './components/PageResume';
+import PageProjects from './components/PageProjects';
 
 const App = withRouter(props => {
   const {
     location: { pathname }
   } = props;
-
   return (
     <div className="App">
       <Menu fixed={'top'} pointing={true} secondary={true}>
@@ -22,15 +22,29 @@ const App = withRouter(props => {
         />
         <Menu.Item
           active={pathname === '/about'}
-          name="About Me"
+          name="Resume"
           icon="file alternate"
           as={Link}
           to="/about"
         />
+        <Menu.Item
+          active={pathname === '/projects'}
+          name="Projects"
+          icon="lab"
+          as={Link}
+          to="/projects"
+        />
+        {/* <Menu.Item
+          active={pathname === '/contact'}
+          name="Contact"
+          as={Link}
+          to="/contact"
+        /> */}
       </Menu>
       <Switch>
         <Route exact path="/" component={PageHome} />
         <Route exact path="/about" component={PageResume} />
+        <Route exact path="/projects" component={PageProjects} />
       </Switch>
     </div>
   );
