@@ -480,3 +480,107 @@ an introduction.
 
 Later we’ll customize this page with your profile picture and social media
 buttons, but this is a start.
+
+## 3.3: Add navigation
+
+Technically you could create this site purely with
+[React state hooks](https://reactjs.org/docs/hooks-overview.html), however one
+of the fundamental assumptions of web browsers is that the URL path corresponds
+to the page the user is on.
+
+For example, when you copy paste a URL into a text message, you probably expect
+that whoever uses the link would see the same page you do.
+
+To preserve this behavior in a modern
+[Single Page Application](https://en.wikipedia.org/wiki/Single-page_application),
+which as its name indicates does not consist of multiple pages with different
+locations on the server, requires some form of routing emulation system.
+[React router](https://reacttraining.com/react-router/) is a popular library
+which helps accomplish this.
+
+To use React router we first install the dependency (and its typings file) with
+yarn add react-router-dom @types/react-router-dom.
+
+Next, we need to add the
+[BrowserRouter](https://reacttraining.com/react-router/web/api)
+[HoE](https://reactjs.org/docs/higher-order-components.html) to the entry-point
+file src/index.tsx:
+
+```TSX
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import \* as serviceWorker from './serviceWorker';
+import { BrowserRouter } from 'react-router-dom';
+
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.getElementById('root')
+);
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+
+serviceWorker.unregister();
+```
+
+Next, we will need access to the router state from within the application, so
+we’ll need to run App through react-router’s withRouter function.
+
+```TSX
+import React from 'react';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import './App.css';
+import PageHome from './components/PageHome';
+
+const App = withRouter(props => {
+  const {
+    location: { pathname }
+  } = props;
+
+  console.log(pathname);
+
+  return (
+    <div className="App">
+      <Switch>
+        <Route exact path="/" component={PageHome} />
+      </Switch>
+    </div>
+  );
+});
+
+export default App;
+```
+
+In your browser, if you
+[open the console](https://www.wickedlysmart.com/hfjsconsole/) you’ll see your
+current route being logged (right now it should be the default, "/".
+
+Next, we must add our first route to src/App.tsx:
+
+```TSX
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import './App.css';
+import PageHome from './components/PageHome';
+
+const App: React.FC = () => {
+  return (
+    <div className="App">
+      <Switch>
+        <Route exact path="/" component={PageHome}/>
+      </Switch>
+    </div>
+  );
+};
+
+export default App;
+```
+
+This will have no perceivable effect at the moment, since "/" was the default
+route we were already on, but we’ll need to add more pages next, and that’s
+where the additional routes come in.
