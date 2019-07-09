@@ -45,6 +45,8 @@ The following will take you step-by-step through the process of creating and
 deploying a basic, modern web app. The product in this case is a developer
 portfolio.
 
+![site result example](image_000.png)
+
 Many steps can be altered or skipped entirely, depending on your existing setup,
 expertise and/or preferences, but this lesson is geared toward beginners. I will
 assume we’re starting from scratch and will aim for simplicity. Several steps
@@ -263,3 +265,21 @@ to your local repo by running
 Finally, push your local repo to Github with
 `git push --set-upstream origin master`. If you refresh your repo page, you
 should now see your latest files and commits.
+
+## 2.2: Configure deployment
+
+### 2.2.1: Prepare for deployment to Github Pages
+
+Install the [gh-pages](https://www.npmjs.com/package/gh-pages) library with yarn
+add gh-pages.
+
+Open _package.json_ which is at the root of the project and add the property
+"homepage" to point to a Github pages site like the following:
+
+```JSON
+{
+  ...
+  "homepage": "http://username.github.io"
+  ...
+}
+```
