@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Build an Online Portfolio with TypeScript</title>
+    <style>
+      body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      }
+      h1,
+      h2,
+      h3 {
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .remark-slide-content h1 {
+        font-size: 3em;
+      }
+      .remark-slide-content h2 {
+        font-size: 2em;
+      }
+      .remark-slide-content h3 {
+        font-size: 1.6em;
+      }
+      .footnote {
+        position: absolute;
+        bottom: 3em;
+      }
+      li p {
+        line-height: 1.25em;
+      }
+      .red {
+        color: #fa0000;
+      }
+      .large {
+        font-size: 2em;
+      }
+      a,
+      a > code {
+        color: rgb(249, 38, 114);
+        text-decoration: none;
+      }
+      code {
+        background: none repeat scroll 0 0 #f8f8ff;
+        border: 1px solid #dedede;
+        border-radius: 3px;
+        padding: 0 0.2em;
+      }
+      .remark-code,
+      .remark-inline-code {
+        font-family: 'Bitstream Vera Sans Mono', 'Courier', monospace;
+      }
+      .remark-code-line-highlighted {
+        background-color: #373832;
+      }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .main-title,
+      .title {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .title h1,
+      .title h2,
+      .main-title h1,
+      .main-title h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+      /* Custom */
+      .remark-code {
+        display: block;
+        padding: 0.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, main-title
+
+# Build an Online Portfolio with TypeScript
+github.com/tylerfranklin/walkthrough-l1-portfolio
+
+---
+class: center, middle, main-title
+
+# Introduction
+
+This lesson will only cover
+[front-end](https://en.wikipedia.org/wiki/Front-end_web_development) development
+with [React](https://reactjs.org/). Lesson 2 will cover full-stack development
+using the same approach with [Express](https://expressjs.com/) and
+[Mongo](https://www.mongodb.com/). Lesson 3 will focus on
+[web services](https://en.wikipedia.org/wiki/Web_service) and
+[DevOps](https://aws.amazon.com/devops/what-is-devops/) with
+[Azure](https://azure.microsoft.com/en-us/).
+
+
+---
+class: center, middle, main-title
+
+# 1: Setup a dev environment
+Some of the following setup isn’t strictly necessary to complete this lesson,
+but will be necessary for future lessons and will prepare your system for future
+development.
+
+
+---
+## 1.1: Required software
+While there are [alternatives to Git](https://stackoverflow.com/q/995636), they
+are not as common these days. You should learn Git. To a lesser but still
+notable degree, [Node](https://en.wikipedia.org/wiki/Node.js) is popular in the web dev sphere. For this lesson, both are
+required.
+
+
+---
+### 1.1.1: Install Git
+Download installer [here](https://git-scm.com/downloads). Yours is likely a
+64-bit system. Use defaults but, if you’re on Windows, make sure to choose &quot;use
+git and optional unix tools.&quot;
+
+![site result example](image_111.png)
+
+If you forget the step above, you will later receive a &quot;command not found&quot;
+message. To fix,
+[open your terminal](https://www.howtogeek.com/235101/10-ways-to-open-the-command-prompt-in-windows-10/)
+and run `SETX PATH &quot;%PATH%;C:\Program Files\Git\usr\bin&quot;` to update your PATH
+variable, or
+[edit it in system settings](https://www.java.com/en/download/help/path.xml).
+
+To confirm Git installed successfully, open your terminal, type `git --version`
+and press enter. A number should display.
+
+
+---
+### 1.1.2: Install NodeJS
+Download installer [here](https://nodejs.org/en/). The update PATH option should
+be checked by default, but if for some reason it doesn&#39;t update you can use
+where node to get Node’s path on disk and `SETX PATH` like above, or just run
+the installer again with the box checked.
+
+ℹ️Note: if you’re on a Unix (Mac or Linux) system, using
+[NVM](https://github.com/nvm-sh/nvm#installation-and-update) instead of the
+default installer is highly recommended.
+
+To confirm Node installed successfully, open your terminal, type
+`node --version` and press enter. A number should display.
+
+
+---
+class: center, middle, title
+
+## 1.2: Optional software
+
+---
+### 1.2.1: Pick a terminal emulator
+You can always use the stock terminal/command-prompt, and some are decent like
+Powershell (Windows) and Gnome terminal (most Linux distros), but most
+developers end up using alternatives for the extra features and customizability.
+
+Popular options:
+
+
+- Windows: [Cmder](https://cmder.net/)
+- Mac: [iTerm](https://www.iterm2.com/)
+- Linux: [Tilix](https://github.com/gnunn1/tilix)
+
+ℹ️Note: Microsoft
+[just announced](https://www.theverge.com/2019/5/6/18527870/microsoft-windows-terminal-command-line-tool)
+a better stock terminal for Windows 10 which might be out soon, so that might be
+worth a look. Also, for further terminal customization in *nix environments, I
+recommend
+[oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH).
+
+
+---
+### 1.2.2: Pick an editor
+There’s a lot of options here, including just a stock text editor, however I
+recommend [Visual Studio Code](https://code.visualstudio.com/) as a popular and
+relatively beginner-friendly option that will familiarize you with
+[IDEs](https://en.wikipedia.org/wiki/Integrated_development_environment).
+
+For this lesson you don’t need any extensions, and you can explore the
+[extension market](https://marketplace.visualstudio.com/vscode) at your leisure,
+but I recommend finding yourself a linter (like
+[TSLint](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-tslint-plugin))
+or
+[ESlint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+and a code formatter (like
+[Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)).
+
+If you’d like to try something different,
+[here are some other common editors](https://designrevision.com/best-code-editor/).
+ℹ️Note: if you go with [Vim](https://www.vim.org/), be prepared for a steep
+learning curve. [This game](https://vim-adventures.com/) is a fun way to start
+learning.
+
+
+---
+### 1.2.3: Pick a package manager
+Basically this is either [Yarn](https://yarnpkg.com/en/) or
+[NPM](https://www.npmjs.com/). In this lesson I’ll use Yarn but you’ll see NPM
+used in other tutorials. To install yarn, just `npm i -g yarn`.
+
+If you want to use npm just use npm in place of yarn in any of the commands
+below.
+
+You’ll also see the use of npx below, which isn’t a typo. It’s a special npm
+command for temporarily installing and eXecuting libraries you intend to only
+use once.
+
+
+---
+## 1.3: Version control
+This makes it much easier to manage changes in your project, especially with
+multiple developers involved. Think of it like a thumbdrive that remembers
+exactly how its files have been changed over time. Even for small projects like
+the one in this lesson, Version Control is always recommended for project source
+code.
+
+The SSH setup below is not strictly required, since you could use the HTTPS
+protocol and authenticate in the terminal, however you’ll later need SSH for a
+variety of other tasks, and employers will expect you’re familiar with it.
+
+
+---
+### 1.3.1: Create a Github account
+Simple enough: go to the [join page](https://github.com/join) and follow the
+instructions, but a quick note regarding username choice:
+
+Some people argue it’s better to use your real name as your username if you
+intend to use it as part of your portfolio, sort of like using your name in the
+email address you put on your resume instead of your old AIM handle. I never
+gave it much thought, personally, but later in this lesson we will host your
+site for free at *username.github.io* so bear that in mind when choosing your
+username.
+
+
+---
+### 1.3.2: Create an SSH key
+The steps for this vary depending on your operating system.
+
+
+- Windows: Use
+[PUTTY](https://docs.joyent.com/public-cloud/getting-started/ssh-keys/generating-an-ssh-key-manually/manually-generating-your-ssh-key-in-windows),
+[OpenSSH](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse),
+or [Git Bash](https://gitforwindows.org/)
+- Mac and Linux: use
+[ssh-keygen ](https://docs.joyent.com/public-cloud/getting-started/ssh-keys/generating-an-ssh-key-manually/manually-generating-your-ssh-key-in-mac-os-x)
+
+Without going into
+[further detail re: SSH](https://www.hostinger.com/tutorials/ssh-tutorial-how-does-ssh-work),
+just know that it’s a way of protecting traffic between computers on the web,
+and what the steps above do is create a public key and a private key. The
+private key stays on your machine and shouldn’t be shared with anyone. The
+public key is given to the service you want to communicate with.
+
+
+---
+### 1.3.3: Add your SSH key to Github
+Follow
+[these steps](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account).
+
+
+---
+class: center, middle, main-title
+
+# 2: Setup a project
+
+---
+## 2.1: Setup a boilerplate app
+In this section we will generate a
+[boilerplate](https://en.wikipedia.org/wiki/Boilerplate_code) React app.
+[React](https://reactjs.org/) is a framework created by Facebook that’s fairly
+popular right now.
+
+There will likely be some new, trendy framework in a few years, but the
+principles and patterns of
+[MV*](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
+architecture,
+[statefulness](https://en.wikipedia.org/wiki/State_(computer_science)&gt;), and
+[componentization](http://blogs.windriver.com/koning/2006/09/components.html)
+aren’t going anywhere and are transferable concepts.
+
+
+---
+### 2.1.1: Create React app
+[Create react app](https://github.com/facebook/create-react-app) is a project
+boilerplate generator which abstracts out a lot of typical project complexity.
+In our next lesson we will see what a more DIY approach looks like.
+
+Navigate to your project directory using cd (e.g. `cd ~/projects`). If this is
+your first project, you can `mkdir project`s and `cd projects`.
+
+Run `npx create-react-app username.github.io --typescript` where &quot;username&quot; is
+your GitHub username.
+
+Once complete, navigate into this directory (e.g. `cd my-app`) and `git log` to
+see that a git repo was initialized by CRA on your behalf. To escape the log
+view, press `Q`.
+
+To view the boilerplate app in its current state, run yarn start and the app
+should serve up locally and open in your browser.
+
+
+---
+### 2.1.2: Add project to Github
+This step ensures your code changes are backed up.
+
+Follow the steps on
+[this page](https://help.github.com/en/articles/creating-a-new-repository) to
+create a remote repo on Github and make sure to not check the box to initialize
+the repo (if you accidentally initialize, it’s easy to
+[delete](https://help.github.com/en/articles/deleting-a-repository) and recreate
+the repo).
+
+Next, [add the remote](https://help.github.com/en/articles/adding-a-remote) URL
+to your local repo by running
+`git remote add origin git@github.com:username/username.github.io.git` where
+&quot;username&quot; is your username.
+
+Finally, push your local repo to Github with
+`git push --set-upstream origin master`. If you refresh your repo page, you
+should now see your latest files and commits.
+
+
+---
+class: center, middle, title
+
+## 2.2: Configure deployment
+
+---
+### 2.2.1: Prepare for deployment to Github Pages
+Install the [gh-pages](https://www.npmjs.com/package/gh-pages) library with yarn
+add gh-pages.
+
+Open *package.json* which is at the root of the project and add the property
+&quot;homepage&quot; to point to a Github pages site like the following:
+
+```JSON
+{
+  ...
+  "homepage": "http://username.github.io"
+  ...
+}
+```
+If you visit this URL in the browser now, there won’t be anything to see.
+
+Also, add two lines to &quot;scripts&quot;
+
+```JSON
+{
+  ...
+  "scripts": {
+    ...
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build",
+    ...
+  },
+  ...
+}
+```
+These lines define [npm script](https://docs.npmjs.com/misc/scripts) aliases,
+which help to simplify and organize commands and scripting in your project. For
+example, the command `yarn run deploy` now executes the command
+`gh-pages -d build`, however because &quot;predeploy&quot; is defined, it runs
+`yarn run build` prior to deploying, which is the default build command for your
+app. To summarize, now whenever you `yarn run deploy`, your app will build and
+deploy to Github Pages.
+
+
+---
+## 2.3: Deploy the site to Github pages
+So let’s try it. Execute yarn run deploy in your terminal. At this point, if you
+go to the URL of the homepage you defined above, you should see the spinning
+React logo.
+
+This will be the command you use in the future to deploy updates to your site.
+At this point, we should commit our changes with
+`git commit -am &quot;Add deployment scripts&quot; &amp;&amp; git push`.
+
+
+---
+class: center, middle, main-title
+
+# 3: Develop the site
+
+---
+## 3.1: Choose a UI framework
+UI frameworks are not a requirement for most projects, and sometimes they can
+even get in the way, however many developers use them to enforce design
+principles in an application and/or to rapidly prototype views.
+
+A few popular UI frameworks right now are [Material](https://material-ui.com/)
+(Google), [Bootstrap](https://getbootstrap.com/) (Twitter), and
+[Semantic](https://semantic-ui.com/) (non-profit). Each have their merits but
+I’ll be using Semantic UI in this lesson.
+
+To install, run `yarn add semantic-ui-react`, then just add the CSS link to the
+head tag of your HTML (./public/index.html). Also, while you&#39;re there, you might
+as well update the title tag to something relevant.
+
+```HTML
+<head>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <!--
+    manifest.json provides metadata used when your web app is installed on a
+    user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+  -->
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
+    Notice the use of %PUBLIC_URL% in the tags above.
+    It will be replaced with the URL of the `public` folder during the build.
+    Only files inside the `public` folder can be referenced from the HTML.
+
+    Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+    work correctly both with client-side routing and a non-root public URL.
+    Learn how to configure a non-root public URL by running `npm run build`.
+  -->
+  <link
+    rel="stylesheet"
+    href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
+  />
+  <title>Your Name</title>
+</head>
+```
+
+---
+## 3.2: Make a homepage
+Start by blasting the boilerplate CRA content in src/App.tsx:
+
+```TSX
+import React from 'react';
+import './App.css';
+
+const App: React.FC = () => {
+  return (
+    <div className="App">
+
+    </div>
+  );
+};
+
+export default App;
+```
+Replace it with a call to your homepage component. We’ll call it &quot;PageHome&quot; to
+keep the component classification info at the front.
+
+```TSX
+import React from 'react';
+import './App.css';
+import PageHome from './components/PageHome';
+
+const App: React.FC = () => {
+  return (
+    <div className="App">
+      <PageHome />
+    </div>
+  );
+};
+
+export default App;
+```
+You should see an error in the terminal after saving, since the PageHome.tsx
+file doesn’t exist. We’ll do that next. Create a new file at
+src/components/PageHome.tsx and populate it with the following to start:
+
+```TSX
+import React from 'react';
+import './PageHome.css';
+
+const PageHome: React.FC = () => {
+  return (
+    <div className="page-home">
+      <div className="centering-container">
+
+      </div>
+    </div>
+  );
+};
+
+export default PageHome;
+```
+This sets up a component consisting of just an outer page div and an inner
+centering container div. The terminal will show an error until we add the CSS
+file at `src/components/PageHome.css`, which can look like this:
+
+```CSS
+.page-home {
+  height: 100%;
+  width: 100%;
+}
+
+.centering-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  height: 30vh;
+  width: 40vw;
+}
+```
+At this point your homepage will render, however it will be completely blank!
+Next, we’ll add some content to the homepage using Semantic components:
+
+```TSX
+import React from 'react';
+import { Header, Icon, Container } from 'semantic-ui-react';
+import './PageHome.css';
+
+const PageHome: React.FC = () => {
+  return (
+    <div className="page-home">
+      <div className="centering-container">
+        <Header as="h2" icon textAlign="center">
+          <Icon name="user" circular />
+          <Header.Content>Your Name</Header.Content>
+        </Header>
+        <Container>
+          Hi, I'm so-and-so. I'm a student at Borough of Manhattan Community
+          College and a web app developer.
+        </Container>
+      </div>
+    </div>
+  );
+};
+
+export default PageHome;
+```
+This should show up as a blank page with your image placeholder, your name, and
+an introduction.
+
+![Home page example](image_320.png)
+
+Later we’ll customize this page with your profile picture and social media
+buttons, but this is a start.
+
+
+---
+## 3.3: Add navigation
+Technically you could create this site purely with
+[React state hooks](https://reactjs.org/docs/hooks-overview.html), however one
+of the fundamental assumptions of web browsers is that the URL path corresponds
+to the page the user is on.
+
+For example, when you copy paste a URL into a text message, you probably expect
+that whoever uses the link would see the same page you do.
+
+To preserve this behavior in a modern
+[Single Page Application](https://en.wikipedia.org/wiki/Single-page_application),
+which as its name indicates does not consist of multiple pages with different
+locations on the server, requires some form of routing emulation system.
+[React router](https://reacttraining.com/react-router/) is a popular library
+which helps accomplish this.
+
+To use React router we first install the dependency (and its typings file) with
+yarn add react-router-dom @types/react-router-dom.
+
+Next, we need to add the
+[BrowserRouter](https://reacttraining.com/react-router/web/api)
+[HoE](https://reactjs.org/docs/higher-order-components.html) to the entry-point
+file src/index.tsx:
+
+```TSX
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import \* as serviceWorker from './serviceWorker';
+import { BrowserRouter } from 'react-router-dom';
+
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.getElementById('root')
+);
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+
+serviceWorker.unregister();
+```
+Next, we will need access to the router state from within the application, so
+we’ll need to run App through react-router’s withRouter function.
+
+```TSX
+import React from 'react';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import './App.css';
+import PageHome from './components/PageHome';
+
+const App = withRouter(props => {
+  const {
+    location: { pathname }
+  } = props;
+
+  console.log(pathname);
+
+  return (
+    <div className="App">
+      <Switch>
+        <Route exact path="/" component={PageHome} />
+      </Switch>
+    </div>
+  );
+});
+
+export default App;
+```
+In your browser, if you
+[open the console](https://www.wickedlysmart.com/hfjsconsole/) you’ll see your
+current route being logged (right now it should be the default, &quot;/&quot;.
+
+Next, we must add our first route to src/App.tsx:
+
+```TSX
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import './App.css';
+import PageHome from './components/PageHome';
+
+const App: React.FC = () => {
+  return (
+    <div className="App">
+      <Switch>
+        <Route exact path="/" component={PageHome}/>
+      </Switch>
+    </div>
+  );
+};
+
+export default App;
+```
+This will have no perceivable effect at the moment, since &quot;/&quot; was the default
+route we were already on, but we’ll need to add more pages next, and that’s
+where the additional routes come in.
+
+
+---
+## 3.4: Add a Navigation Menu
+We’ll add a navbar to your app. These types of menus are ubiquitous and with
+reason: in short, while it’s cool to experiment with new approaches to layouts
+and UI concepts, generally good UIs are intuitive, which means predictable, and
+the easiest way to make something predictable is to do things the way users are
+already familiar with.
+
+First, create a new root level SUI element in src/App.tsx called Menu:
+
+```TSX
+import React from 'react';
+import { Switch, Route, Link, withRouter } from 'react-router-dom';
+import './App.css';
+import PageHome from './components/PageHome';
+import { Menu } from 'semantic-ui-react';
+
+const App = withRouter(props => {
+  return (
+    <div className="App">
+      <Menu fixed={'top'} pointing={true} secondary={true}>
+      </Menu>
+      <Switch>
+        <Route exact path="/" component={PageHome} />
+      </Switch>
+    </div>
+  );
+});
+
+export default App;
+```
+This will appear as an empty navigation bar. We’ll need to add a menu item that
+corresponds to the home page route:
+
+```TSX
+import React from 'react';
+import { Switch, Route, Link, withRouter } from 'react-router-dom';
+import './App.css';
+import PageHome from './components/PageHome';
+import { Menu } from 'semantic-ui-react';
+
+const App = withRouter(props => {
+  const {
+    location: { pathname }
+  } = props;
+
+  return (
+    <div className="App">
+      <Menu fixed={'top'} pointing={true} secondary={true}>
+        <Menu.Item
+          active={pathname === '/'}
+          name="Home"
+          icon="home"
+          as={Link}
+          to="/"
+        />
+      </Menu>
+      <Switch>
+        <Route exact path="/" component={PageHome} />
+      </Switch>
+    </div>
+  );
+});
+
+export default App;
+```
+At this point, you should see the rendered navigation bar with a new home page
+button:
+
+![Navigation bar example](image_340.png)
+
+Nice, we now have a menu, though it’s kind of sparse. Let’s add a few more
+pages.
+
+
+---
+## 3.5: Add a Resume page
+We’ll start with a resume page. There are many ways you can do this, including
+using resume HTML templates which you can copy-paste into your react component,
+however I will give an example of a basic resume layout using Semantic UI.
+
+First, create a new component at src/components/PageResume.tsx:
+
+```TSX
+import React from 'react';
+import { Header, Content } from 'semantic-ui-react';
+
+const PageResume: React.FC = () => {
+  return (
+    <div className="page-resume">
+      <Header>Your Name</Header>
+      <Content>
+        Stuff about me
+      </Content>
+    </div>
+  );
+};
+
+export default PageResume;
+```
+Before continuing, let’s add the route we need to access this new page. In
+src/App.tsx, add an additional Route and MenuItem corresponding to our new page:
+
+```TSX
+import React from 'react';
+import { Switch, Route, Link, withRouter } from 'react-router-dom';
+import { Menu } from 'semantic-ui-react';
+import './App.css';
+import PageHome from './components/PageHome';
+import PageResume from './components/PageResume';
+
+const App = withRouter(props => {
+  const {
+    location: { pathname }
+  } = props;
+
+  return (
+    <div className="App">
+      <Menu fixed={'top'} pointing={true} secondary={true}>
+        <Menu.Item
+          active={pathname === '/'}
+          name="Home"
+          icon="home"
+          as={Link}
+          to="/"
+        />
+        <Menu.Item
+          active={pathname === '/about'}
+          name="About Me"
+          as={Link}
+          to="/about"
+        />
+      </Menu>
+      <Switch>
+        <Route exact path="/" component={PageHome} />
+        <Route exact path="/about" component={PageResume} />
+      </Switch>
+    </div>
+  );
+});
+
+export default App;
+```
+At this point, our menu should start looking more like a menu:
+
+![Example navigation menu with additional options](image_350.png)
+
+&quot;About&quot; is a common page on websites, and usually contains at least a paragraph
+or two regarding the company, product, or individual. In this case, you could
+just write a couple of paragraphs about yourself and call it a day. If you have
+time, however, it wouldn&#39;t be a bad idea to fill this out as a complete,
+printable resume. In this example, we&#39;ll create a page that&#39;s a full HTML-based
+resume, in case that&#39;s something you&#39;re interested in.
+
+We can use Semantic UI to map out the general structure of a typical resume:
+
+```TSX
+import React from 'react';
+import './PageResume.css';
+import { Header, Container, Divider } from 'semantic-ui-react';
+
+const PageResume: React.FC = () => {
+  return (
+    <div className="page-resume">
+      <Header as="h2" textAlign={'center'}>
+        Your Name
+      </Header>
+      <Container text textAlign={'left'}>
+        <Header as="h3">Education</Header>
+      </Container>
+      <Divider hidden />
+      <Container text>
+        <Header as="h3">Skills</Header>
+      </Container>
+      <Divider hidden />
+      <Container text>
+        <Header as="h3">Experience</Header>
+      </Container>
+      <Divider hidden />
+      <Container text>
+        <Header as="h3">Projects</Header>
+      </Container>
+    </div>
+  );
+};
+
+export default PageResume;
+```
+This divides the page into a title header (your name) and 4 distinct sections
+for education, skills, experience and projects. Resumes can be organized in a
+lot of ways, of course, and this is just an example, but if you&#39;re applying to
+your first developer job after school, odds are your actual relevant experience
+is limited and you&#39;ll need to emphasize education and projects (personal,
+research, etc).
+
+We can also add an accompanying CSS file (src/components/PageResume.css) to
+adjust the page position:
+
+```CSS
+.page-resume {
+  margin-top: 50px;
+  text-align: left;
+}
+```
+We can fill out the content of each section with some basic HTML:
+
+```TSX
+import React from 'react';
+import './PageResume.css';
+import { Header, Container, Divider } from 'semantic-ui-react';
+
+const PageResume: React.FC = () => {
+  return (
+    <div className="page-resume">
+      <Header as="h2" textAlign={'center'}>
+        Your Name
+      </Header>
+      <Container text textAlign={'left'}>
+        <Header as="h3">Education</Header>
+        <p>
+          <strong>Borough of Manhattan Community College</strong>, New York, NY
+          <br />
+          Associate in Science, Computer Science, 2019, 3.7 GPA
+        </p>
+      </Container>
+      <Divider hidden />
+      <Container text>
+        <Header as="h3">Skills</Header>
+        <p>
+          <em>Coding:</em> C/C++, Java, x86 assembly, C#, PHP, Javascript, HTML,
+          CSS, SML, Ruby, Perl
+          <em>Technologies/Environment:</em> Windows, Win32 API/GUI, Linux,
+          MySQL, OpenGL, ASP.NET
+        </p>
+      </Container>
+      <Divider hidden />
+      <Container text>
+        <Header as="h3">Experience</Header>
+        <strong>
+          Artemia Health Systems, New York, NY Student Intern (Summer 2018)
+        </strong>
+        <ul>
+          <li>
+            Created new functionality for state-level prescription drug
+            information system
+          </li>
+          <li>Worked with end users to determine their information needs</li>
+          <li>Wrote application to create custom surveys</li>
+          <li>Migrated existing website from SQL Membership to to ASP.NET</li>
+        </ul>
+        <strong>
+          Borough of Manhattan Community College Computing Services Help Center,
+          New York, NY Student Consultant (September 2018 – Present)
+        </strong>
+        <ul>
+          <li>
+            Resolved issues regarding networking (wired, wireless, and dialup),
+            and email problems for Borough of Manhattan Community College users
+          </li>
+          <li>
+            Answered questions about software supported by the university, such
+            as MS Office
+          </li>
+          <li>
+            Communicated with customers through email, telephone, and face to
+            face
+          </li>
+        </ul>
+      </Container>
+      <Divider hidden />
+      <Container text>
+        <Header as="h3">Projects</Header>
+        <strong>
+          Vintage Foundation (Fall 2017) – a consulting project in a nonprofit
+          organization
+        </strong>
+        <ul>
+          <li>
+            Advised on new technologies to help further the organizational
+            mission
+          </li>
+          <li>
+            Instructed program director on building a user-friendly website and
+            relational database
+          </li>
+          <li>Assessed systemic problems and suggested possible solutions</li>
+        </ul>
+        <strong>
+          News Delivery System (Spring 2018) - online information
+          gathering/presentation system
+        </strong>
+        <ul>
+          <li>
+            Integrated old code with new for web application delivering custom
+            tailored web news
+          </li>
+          <li>Coded in Java using Model-View-Controller architecture</li>
+        </ul>
+        <strong>
+          Ebarter (Fall 2017) - an online bartering system running on Apache
+          Tomcat
+        </strong>
+        <ul>
+          <li>
+            Applied software engineering principles along with J2SE Web
+            Development Kit
+          </li>
+          <li>Led team in coding phase of development</li>
+        </ul>
+      </Container>
+    </div>
+  );
+};
+
+export default PageResume;
+```
+We now have a content-filled web page that should double as a workable resume.
+
+![Image of new resume page](image_351.png)
+
+You can try printing this page to see how it looks.
+
+
+---
+## 3.6: Add a Projects page
+The projects page will be the entry-point for our project summaries.
+
+```TSX
+import React from 'react';
+import './PageProjects.css';
+import { Container, Card, Divider } from 'semantic-ui-react';
+
+const PageProjects: React.FC = () => {
+  return (
+    <div className="page-projects">
+      <Divider hidden />
+      <Container>
+      </Container>
+    </div>
+  );
+};
+
+export default PageProjects;
+```
+There are a number of ways we could organize this page, but one popular UI
+scheme is a [card system](https://www.nngroup.com/articles/cards-component/).
+Cards are good at chunking summary info in an interactive way:
+
+```TSX
+import React from 'react';
+import './PageProjects.css';
+import { Container, Card, Divider } from 'semantic-ui-react';
+
+const PageProjects: React.FC = () => {
+  return (
+    <div className="page-projects">
+      <Divider hidden />
+      <Container>
+        <Card.Group centered>
+          <Card
+            header="Project #1"
+            meta="February 2019 - May 2019"
+            description="Drone-based anti-mosquito air superiority"
+            href={'https://github.com/username/repo-name'}
+            image={
+              'https://i.ytimg.com/vi/91gnkZGKGEY/maxresdefault.jpg'
+            }
+          />
+          <Card
+            header="Project #2"
+            meta="August 2018 - January 2019"
+            description="Climate crisis solved using legos"
+            href={'https://github.com/username/repo-name'}
+            image={
+              'https://cms.qz.com/wp-content/uploads/2017/07/lego-wind-turbines_landscape_high-e1501029441183.jpg?quality=75&strip=all&w=410&h=230.55432984004415'
+            }
+          />
+          <Card
+            header="Project #3"
+            meta="March 2018 - July 2018"
+            description="Super secret classified project (with pictures)"
+            href={'https://github.com/username/repo-name'}
+            image={
+              'https://i.kym-cdn.com/entries/icons/mobile/000/023/397/C-658VsXoAo3ovC.jpg'
+            }
+          />
+        </Card.Group>
+      </Container>
+    </div>
+  );
+};
+
+export default PageProjects;
+```
+Which should result in a three-card projects group:
+
+![Example of a card group for projects](image_360.png)
+
+These cards can link directly to project pages, such as a github repo or a
+publication, or we could add project details within popup
+&quot;[modals](https://en.wikipedia.org/wiki/Modal_window)&quot; like this:
+
+```TSX
+import React, { Component, MouseEvent } from 'react';
+import './PageProjects.css';
+import {
+  Container,
+  Card,
+  Divider,
+  Modal,
+  Header,
+  Button,
+  CardProps,
+  Image
+} from 'semantic-ui-react';
+
+interface PageProjectsProps {
+  // tslint:disable-line
+}
+
+interface PageProjectsState {
+  activeModal: number;
+}
+
+class PageProjects extends Component<PageProjectsProps, PageProjectsState> {
+  public constructor(props: PageProjectsProps, context: object) {
+    super(props, context);
+
+    this.state = {
+      activeModal: -1
+    };
+  }
+
+  protected handleModalClose = () => this.setState({ activeModal: -1 });
+
+  protected handleModalOpen = (
+    _: MouseEvent,
+    { index: activeModal }: CardProps
+  ) => this.setState({ activeModal });
+
+  private get modals() {
+    const modalConfigs = [
+      [
+        'sun',
+        'Drone-based anti-mosquito air superiority',
+        'https://i.ytimg.com/vi/91gnkZGKGEY/maxresdefault.jpg'
+      ],
+      [
+        'superpowers',
+        'Climate crisis solved using legos',
+        'https://cms.qz.com/wp-content/uploads/2017/07/lego-wind-turbines_landscape_high-e1501029441183.jpg'
+      ],
+      [
+        'user secret',
+        'Super secret classified project with pictures',
+        'https://static.tvtropes.org/pmwiki/pub/images/secret_squirrel_1965_shush_3766.jpg'
+      ]
+    ];
+
+    return modalConfigs.map(([icon, title, imgSrc], idx) => (
+      <Modal
+        key={`modal_${idx}`}
+        open={this.state.activeModal === idx}
+        onClose={this.handleModalClose}
+        size="small"
+      >
+        <Header icon={icon} content={`Project #${idx + 1}`} />
+        <Modal.Content>
+          <h3>{title}</h3>
+          <Image src={imgSrc} />
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button
+            color="green"
+            onClick={this.handleModalClose}
+            icon="checkmark"
+            content="Got it"
+            inverted
+          />
+        </Modal.Actions>
+      </Modal>
+    ));
+  }
+
+  public render() {
+    return (
+      <div className="page-projects">
+        <Divider hidden />
+        <Container>
+          <Card.Group centered>
+            <Card
+              header="Project #1"
+              meta="February 2019 - May 2019"
+              index={0}
+              onClick={this.handleModalOpen}
+              description="Drone-based anti-mosquito air superiority"
+              image={
+                'https://cdn2.iconfinder.com/data/icons/gears-wheels-blades/512/gears-512.png'
+              }
+            />
+            <Card
+              header="Project #2"
+              meta="August 2018 - January 2019"
+              index={1}
+              onClick={this.handleModalOpen}
+              description="Climate crisis solved using legos"
+              image={
+                'https://cdn2.iconfinder.com/data/icons/gears-wheels-blades/512/gears-512.png'
+              }
+            />
+            <Card
+              header="Project #3"
+              meta="March 2018 - July 2018"
+              index={2}
+              onClick={this.handleModalOpen}
+              description="Super secret classified project with pictures"
+              image={
+                'https://cdn2.iconfinder.com/data/icons/gears-wheels-blades/512/gears-512.png'
+              }
+            />
+          </Card.Group>
+        </Container>
+        {this.modals}
+      </div>
+    );
+  }
+}
+
+export default PageProjects;
+```
+Which would show a modal dialog when the project cards are clicked:
+
+![Example of modal dialog with project details](image_361.png)
+
+
+---
+class: center, middle, main-title
+
+# 4: Customize (guided experimentation)
+Here are some exercises you can try on your own. Solution examples are in the
+appendix.
+
+
+---
+## 4.1: How would you change the picture on the home page?
+Right now, the image on the home page is a placeholder icon. You might consider
+adding a picture of yourself there. How would you go about this?
+
+Hints:
+
+
+- It requires editing the PageHome.tsx file
+- You will probably need to import a local image
+- Alternatively, you could
+[use an existing online pic](https://smallbusiness.chron.com/share-url-facebook-image-48893.html)
+
+Bonus:
+
+
+- You could use the Semantic UI
+[Image](https://react.semantic-ui.com/elements/image/) component
+
+
+---
+## 4.2: Can we include social media buttons?
+An easy way to connect with your audience is via social media, and since users
+prefer to have everything at their fingertips, a common option for the
+social-media-inclined is to add buttons that link directly to relevant social
+media profiles. How would you go about this?
+
+Hints:
+
+
+- You&#39;ll be editing the PageHome.tsx file again
+- You could use Semantic UI
+[buttons](https://react.semantic-ui.com/elements/button/#variations-circular-social)
+
+
+---
+class: center, middle, title
+
+## 4.3: Could we add a Contact page?
+
+---
+class: center, middle, main-title
+
+# Conclusion
+In this lesson we built a simple website using React, a modern single-page web
+application framework. A lot of web applications can be built this way.
+
+Our next lesson will expand on what we learned here, covering full-stack
+development with an [Express](https://expressjs.com/) server and
+[Mongo](https://www.mongodb.com/) database for persisting data between sessions.
+
+Lesson 3 will focus on [web services](https://en.wikipedia.org/wiki/Web_service)
+and [DevOps](https://aws.amazon.com/devops/what-is-devops/) with
+[Azure](https://azure.microsoft.com/en-us/). This will expand on the concepts we
+learn in lesson 2 and highlight current methods for modularizing back-end
+functionality.
+
+
+---
+class: center, middle, main-title
+
+# Appendix
+
+---
+class: center, middle, title
+
+## Solution: 4.1
+
+---
+class: center, middle, title
+
+## Solution: 4.2
+
+---
+class: center, middle, title
+
+## Solution: 4.3
+
+		</textarea
+    >
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js"></script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+    <script></script>
+  </body>
+</html>
