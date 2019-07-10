@@ -34,12 +34,13 @@ const App = withRouter(props => {
           as={Link}
           to="/projects"
         />
-        {/* <Menu.Item
+        <Menu.Item
           active={pathname === '/contact'}
           name="Contact"
+          icon="chat"
           as={Link}
           to="/contact"
-        /> */}
+        />
       </Menu>
       <Switch>
         <Route exact path="/" component={PageHome} />
